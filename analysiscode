@@ -1,0 +1,71 @@
+  # After successfully uploading dataset on oracle, run this command 
+
+SELECT * FROM Sephora;  # or name you gave dataset.
+#After you should see a bunch of columns $ rows with text.
+
+
+
+  # First query i ran, is for me due to  my acne orine skin and would like to know product that suit my skin 
+
+SELECT NAME, BRAND, RATING,love, price,value_price, category
+FROM SEPHORA
+WHERE category IN ('Highlighter', 'Lipstick', 'Eye Palettes', 'Eyebrow', 'Concealer', 'Mascara', 'Foundation', 'Setting Spray & Powder', 'Eye Brushes', 'Contour', 'Lipgloss', 'Eyeliner','Eye Primer', 'Bronzer', 'False Lashes', 'Check Palettes', 'Liquid Lipstick', 'Face Primer','Blush' ) AND ingredients LIKE '%Water%';
+
+
+
+  # Top Picks for Sensitive Skin with Gentle Ingredients
+
+SELECT NAME, BRAND, category, RATING, love, price, value_price, ingredients
+FROM SEPHORA
+WHERE ingredients NOT LIKE '%Fragrance%' AND ingredients NOT LIKE '%Alcohol%'
+ORDER BY RATING DESC, love DESC; 
+
+
+
+  # High-Performance Makeup Products Under $30
+
+SELECT NAME, BRAND, category, RATING, love, price, value_price
+FROM SEPHORA
+WHERE price <= 30 AND RATING >= 4.0
+ORDER BY love DESC, RATING DESC;
+
+
+
+  #This will retrieving information about lip products
+  #(specifically, Lipstick, Lipgloss, and Liquid Lipstick) that contain water in their ingredients.
+
+SELECT NAME, BRAND, category, RATING, love, price, value_price
+FROM SEPHORA
+WHERE category IN ('Lipstick', 'Lipgloss', 'Liquid Lipstick') AND ingredients LIKE '%Water%'
+ORDER BY RATING DESC, love DESC;
+
+
+
+  #This query identifies makeup categories that have seen a spike in customer interest, potentially indicating emerging trends.
+
+SELECT category, COUNT(*) AS product_count
+FROM SEPHORA
+GROUP BY category
+ORDER BY product_count DESC;
+
+
+ 
+  # Customer engagement analysis for rated products in different category
+
+SELECT category, AVG(rating) AS avg_rating, AVG(love) AS avg_love, COUNT(*) AS product_count
+FROM SEPHORA
+GROUP BY category
+ORDER BY avg_love DESC, product_count DESC;
+
+ 
+  #customer engagement analysis in product pricing in each category
+
+SELECT category, AVG(price) AS avg_price, MIN(price) AS min_price, MAX(price) AS max_price
+FROM SEPHORA
+WHERE love > 1000
+GROUP BY category
+ORDER BY avg_price DESC;
+
+
+
+
